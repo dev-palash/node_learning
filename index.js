@@ -44,6 +44,28 @@ app.post('/user', jsonParser, (req, res)=>{
   }
 })
 
+// app.delete('/user/delete', jsonParser,(req, res)=>{
+//   User.deleteOne({_id: req.body.id}).then((result)=>{
+//     res.status(200).json(result);
+//   }).catch((err)=>{
+//     console.warn(err);
+//   })
+// })
+app.delete('/user/delete', jsonParser, (req, res) => {
+  User.deleteOne({ _id: req.body.id })
+    .then((result) => {
+      if (result.deletedCount === 1) {
+        res.status(200).json({ message: 'User deleted successfully' });
+      } else {
+        res.status(404).json({ message: 'User not found' });
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).json({ message: 'Internal server error' });
+    });
+});
+
   const data =  new User({
     _id: mongoose.Schema.Types.ObjectId,
     name: 'tony',
