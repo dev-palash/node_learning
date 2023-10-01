@@ -72,4 +72,11 @@ app.put('/user/update',(req, res)=>{
     })
 });
 
+app.get('/users/search/:name', (req, res)=>{
+  let regex = new RegExp(req.params.name, 'i');
+  User.find({name: regex}).then((result)=>{
+    res.status(200).json(result);
+  })
+})
+
 app.listen(5000);
